@@ -38,12 +38,14 @@ public class AdminHotelController {
     @Autowired
     private UserRepository userRepository;
 
+    @Operation(summary = "Lấy danh sách location", description = "Trả về danh sách location", tags = { "Admin/Hotel" })
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("locations")
     public List<Location> getLocations() {
         return locationRepository.findAll();
     }
 
+    @Operation(summary = "Lấy location theo id", description = "Trả về location theo id", tags = { "Admin/Hotel" })
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/locations/{id}")
     ResponseEntity<ResponseObject> findById(@PathVariable int id){
@@ -57,6 +59,7 @@ public class AdminHotelController {
                 );
     }
 
+    @Operation(summary = "Thêm location", description = "Trả về thêm thành công hay thất bại", tags = { "Admin/Hotel" })
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/locations/insert")
     ResponseEntity<ResponseObject> insertLocation(@RequestBody Location newLocation){
@@ -72,6 +75,7 @@ public class AdminHotelController {
         );
     }
 
+    @Operation(summary = "Cập nhật location", description = "Trả về cập nhật thành công", tags = { "Admin/Hotel" })
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/locations/{id}")
     ResponseEntity<ResponseObject> updateLocation(@RequestBody Location newLocation, @PathVariable int id){
@@ -88,6 +92,7 @@ public class AdminHotelController {
         );
     }
 
+    @Operation(summary = "Xóa location", description = "Trả về xóa thành công hay thất bại", tags = { "Admin/Hotel" })
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/locations/{id}")
     ResponseEntity<ResponseObject> deleteLocation(@PathVariable int id){

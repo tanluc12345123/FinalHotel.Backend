@@ -279,7 +279,7 @@ public class ManagerController {
         }
     }
 
-    @Operation(summary = "Thêm các dịch vụ vào phòng của khách sạn bằng quyền manager", description = "Trả về thêm thành công hay thất bại", tags = { "Add Service To Room Manager" })
+    @Operation(summary = "Thêm các dịch vụ vào phòng của khách sạn bằng quyền manager", description = "Trả về thêm thành công hay thất bại", tags = { "Manager Controller -SERVICE" })
     @PreAuthorize("hasRole('MODERATOR')")
     @PutMapping("/rooms/{roomId}/addServices")
     ResponseEntity<ResponseObject> addServicesToRoom(@PathVariable(value = "roomId") int roomId, @RequestBody ServiceRequest serviceRequest){
@@ -316,7 +316,7 @@ public class ManagerController {
         }
     }
 
-    @Operation(summary = "Lấy danh sách các order của khách sạn bằng quyền manager", description = "Trả về danh sách orders", tags = { "Orders Room Manager" })
+    @Operation(summary = "Lấy danh sách các order của khách sạn bằng quyền manager", description = "Trả về danh sách orders", tags = { "Manager Controller -ORDER" })
     @PreAuthorize("hasRole('MODERATOR')")
     @GetMapping("/hotels/{hotelId}/orders")
     public List<OrderResponse> getOrdersByHotel(@PathVariable(value = "hotelId") int hotelId, @RequestParam(value = "status") boolean status) {
@@ -352,7 +352,7 @@ public class ManagerController {
         return roomOrders;
     }
 
-    @Operation(summary = "Xác nhận trả phòng của khách sạn bằng quyền manager", description = "Trả về xác nhận thành công hay thất bại", tags = { "Confirm Room Order Manager" })
+    @Operation(summary = "Xác nhận trả phòng của khách sạn bằng quyền manager", description = "Trả về xác nhận thành công hay thất bại", tags = { "Manager Controller -ORDER" })
     @PreAuthorize("hasRole('MODERATOR')")
     @PutMapping("/orders/{roomOderId}/confirm")
     ResponseEntity<ResponseObject> confirmOrder(@PathVariable(value = "roomOderId") int roomOderId){
@@ -368,7 +368,7 @@ public class ManagerController {
 
     }
 
-    @Operation(summary = "Lấy danh sách các comment của user bằng quyền manager", description = "Trả về danh sách orders", tags = { "Orders Room Manager" })
+    @Operation(summary = "Lấy danh sách các comment của user bằng quyền manager", description = "Trả về danh sách orders", tags = { "Manager Controller -COMMENT" })
     @PreAuthorize("hasRole('MODERATOR')")
     @GetMapping("/hotels/{hotelId}/comments")
     public List<CommentResponse> getCommentsByHotel(@PathVariable(value = "hotelId") int hotelId) {
@@ -391,7 +391,7 @@ public class ManagerController {
         return commentResponses;
     }
 
-    @Operation(summary = "Xóa dịch vụ của khách sạn bằng quyền manager", description = "Trả về xóa thành công hay thất bại", tags = { "Delete Service Manager" })
+    @Operation(summary = "Xóa dịch vụ của khách sạn bằng quyền manager", description = "Trả về xóa thành công hay thất bại", tags = { "Manager Controller -SERVICE" })
     @PreAuthorize("hasRole('MODERATOR')")
     @DeleteMapping("comments/{commentId}")
     ResponseEntity<ResponseObject> deleteComment(@PathVariable(value = "commentId") int commentId){
