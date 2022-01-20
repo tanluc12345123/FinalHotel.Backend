@@ -391,7 +391,7 @@ public class ManagerController {
         return commentResponses;
     }
 
-    @Operation(summary = "Xóa dịch vụ của khách sạn bằng quyền manager", description = "Trả về xóa thành công hay thất bại", tags = { "Manager Controller -SERVICE" })
+    @Operation(summary = "Xóa bình luận của khách sạn bằng quyền manager", description = "Trả về xóa thành công hay thất bại", tags = { "Manager Controller -COMMENT" })
     @PreAuthorize("hasRole('MODERATOR')")
     @DeleteMapping("comments/{commentId}")
     ResponseEntity<ResponseObject> deleteComment(@PathVariable(value = "commentId") int commentId){
