@@ -288,22 +288,32 @@ public class ManagerController {
         Set<RoomService> services = new HashSet<>();
         Optional<Room> foundRoomId = roomRepository.findById(roomId);
         if(foundRoomId.isPresent()) {
-            List<RoomService> roomServices = roomServiceRepository.findByHotelId(foundRoomId.get().getHotel().getId());
+//            List<RoomService> roomServices = roomServiceRepository.findByHotelId(foundRoomId.get().getHotel().getId());
             if (strServices.size() != 0) {
-                strServices.forEach(service -> {
-                    roomServices.forEach(roomService -> {
-                        if (service == roomService.getName()) {
-                            services.add(roomService);
+
+                    roomServiceRepository.findAll().forEach(roomService -> {
+                        if(roomService.getHotel().getId() == foundRoomId.get().getHotel().getId()){
+                            strServices.forEach(service -> {
+                                    RoomService roomService1 = roomServiceRepository.findByName(service).orElse(null);
+                                    services.add(roomService1);
+                            });
                         }
                     });
-                });
+//                    roomServices.forEach(roomService -> {
+//                        if (service == roomService.getName()) {
+//                            services.add(roomService);
+//                        }
+//                    });
+
             }
             foundRoomId.map(room -> {
                 room.setRoomServices(services);
                 return roomRepository.save(room);
             });
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "Add Service to Room successfully", foundRoomId));
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseObject("ok", "Not find room id", ""));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "Add Service to Room successfully", foundRoomId));
     }
 
     @Operation(summary = "Lấy danh sách các order của khách sạn bằng quyền manager", description = "Trả về danh sách orders", tags = { "Orders Room Manager" })
