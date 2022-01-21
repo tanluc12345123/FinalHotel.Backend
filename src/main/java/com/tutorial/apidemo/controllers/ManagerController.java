@@ -291,20 +291,22 @@ public class ManagerController {
 //            List<RoomService> roomServices = roomServiceRepository.findByHotelId(foundRoomId.get().getHotel().getId());
             if (strServices.size() != 0) {
 
-                    roomServiceRepository.findAll().forEach(roomService -> {
-                        if(roomService.getHotel().getId() == foundRoomId.get().getHotel().getId()){
-                            strServices.forEach(service -> {
-                                    RoomService roomService1 = roomServiceRepository.findByName(service).orElse(null);
+//                    roomServiceRepository.findAll().forEach(roomService -> {
+//                        if(roomService.getHotel().getId() == foundRoomId.get().getHotel().getId()){
+                                    strServices.forEach(service -> {
+                                    RoomService roomService1 = roomServiceRepository.findByNameAndHotelId(service,foundRoomId.get().getHotel().getId()).orElse(null);
                                     services.add(roomService1);
                             });
-                        }
-                    });
-//                    roomServices.forEach(roomService -> {
-//                        if (service == roomService.getName()) {
-//                            services.add(roomService);
 //                        }
 //                    });
 
+//                    roomServices.forEach(roomService -> {
+//                        if (service == roomService.getName()) {
+//                            RoomService roomService1 = roomServiceRepository.findById(roomService.getId()).orElse(null);
+//                            services.add(roomService1);
+//                        }
+//                    });
+//                });
             }
             foundRoomId.map(room -> {
                 room.setRoomServices(services);
