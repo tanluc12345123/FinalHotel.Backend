@@ -6,8 +6,8 @@ import com.tutorial.apidemo.models.*;
 import com.tutorial.apidemo.repositories.CommentRepository;
 import com.tutorial.apidemo.repositories.RoomOrderRepository;
 import com.tutorial.apidemo.repositories.RoomRepository;
+import com.tutorial.apidemo.request.ChangePassRequest;
 import com.tutorial.apidemo.request.OrderRequest;
-import com.tutorial.apidemo.request.SignupRequest;
 import com.tutorial.apidemo.request.UpdateRequest;
 import com.tutorial.apidemo.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +40,7 @@ public class UserController {
     @Autowired
     private CommentRepository commentRepository;
 
-    @Operation(summary = "Lấy danh sách phòng đặt chưa trả", description = "Trả về listRoomOrder status=false", tags = { "Api User sau khi Login" })
+    @Operation(summary = "Lấy danh sách phòng đặt chưa trả", description = "Trả về listRoomOrder status=false", tags = {"Api User sau khi Login"})
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{userId}/order/false")
     public ResponseEntity<ResponseObject> listRoomOrderFalse(@PathVariable("userId") Integer userId) {
@@ -67,7 +67,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Lấy đơn đặt phòng theo id để đánh giá", description = "Trả về roomOrder", tags = { "Api User sau khi Login" })
+    @Operation(summary = "Lấy đơn đặt phòng theo id để đánh giá", description = "Trả về roomOrder", tags = {"Api User sau khi Login"})
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{userId}/order/{orderId}")
     public ResponseEntity<ResponseObject> getOrderByIdForRate(@PathVariable("userId") Integer userId, @PathVariable("orderId") Integer orderId) {
@@ -85,7 +85,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Lấy danh sách phòng đặt đã trả", description = "Trả về listRoomOrder status=true", tags = { "Api User sau khi Login" })
+    @Operation(summary = "Lấy danh sách phòng đặt đã trả", description = "Trả về listRoomOrder status=true", tags = {"Api User sau khi Login"})
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{userId}/order/true")
     public ResponseEntity<ResponseObject> listRoomOrderTrue(@PathVariable("userId") Integer userId) {
@@ -112,7 +112,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Đặt phòng sau khi đăng nhập", description = "Trả về thông tin người đặt phòng và phòng", tags = { "Api User sau khi Login" })
+    @Operation(summary = "Đặt phòng sau khi đăng nhập", description = "Trả về thông tin người đặt phòng và phòng", tags = {"Api User sau khi Login"})
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/{userId}/order/{roomId}")
     public ResponseEntity<ResponseObject> userOrderRoom(@PathVariable("userId") Integer userId, @PathVariable("roomId") Integer roomId, @RequestBody OrderRequest orderRequest) {
@@ -127,7 +127,7 @@ public class UserController {
 
     }
 
-    @Operation(summary = "User cập nhật thông tin", description = "Trả về thông tin user sau khi cập nhật", tags = { "Api User sau khi Login" })
+    @Operation(summary = "User cập nhật thông tin", description = "Trả về thông tin user sau khi cập nhật", tags = {"Api User sau khi Login"})
     @PreAuthorize("hasRole('USER')")
     @PutMapping("/{userId}/update")
     public ResponseEntity<ResponseObject> updateUser(@PathVariable("userId") Integer userId, @RequestBody UpdateRequest updateRequest) {
@@ -138,9 +138,6 @@ public class UserController {
             user.setAddress(updateRequest.getAddress());
             user.setIdentification(updateRequest.getIdentification());
             user.setEmail(updateRequest.getEmail());
-            if(updateRequest.getPassword()!=null){
-                user.setPassword(encoder.encode(updateRequest.getPassword()));
-            }
             userService.save(user);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("ok", "Update User successfully", user)
@@ -152,7 +149,35 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Comment đánh giá phòng", description = "Trả về thông tin comment và phòng đã đánh giá", tags = { "Api User sau khi Login" })
+    @Operation(summary = "User đổi mật khẩu", description = "Trả về thông tin user sau khi cập nhật", tags = {"Api User sau khi Login"})
+    @PreAuthorize("hasRole('USER')")
+    @PutMapping("/{userId}/changepass")
+    public ResponseEntity<ResponseObject> changePassword(@PathVariable("userId") Integer userId, @RequestBody ChangePassRequest passRequest) {
+        if (userService.existsById(userId)) {
+            User user = userService.findById(userId);
+            if (encoder.matches(passRequest.getOldPassword(), user.getPassword())) {
+                if (passRequest.getNewPassword().equals(passRequest.getConfirmPassword())) {
+                    user.setPassword(encoder.encode(passRequest.getNewPassword()));
+                    userService.save(user);
+                    return ResponseEntity.status(HttpStatus.OK).body(
+                            new ResponseObject("ok", "Change password successfully", user)
+                    );
+                }
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("Error", "Password don't match", "")
+            );
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("Fail", "User Not Found", "")
+            );
+        }
+    }
+
+
+
+
+    @Operation(summary = "Comment đánh giá phòng", description = "Trả về thông tin comment và phòng đã đánh giá", tags = {"Api User sau khi Login"})
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/{userId}/order/{orderId}/comment")
     public ResponseEntity<ResponseObject> commentOrder(@PathVariable("userId") Integer userId, @PathVariable("orderId") Integer orderId, @RequestBody Comment comment) {
