@@ -72,6 +72,12 @@ public class RoomOrder {
     private String location_name;
 
     @Transient
+    private String hotel_image;
+
+    @Transient
+    private String floor;
+
+    @Transient
     private Set<String> roomService=new HashSet<>();
 
     public String getRoom_name() {
@@ -96,6 +102,22 @@ public class RoomOrder {
 
     public void setLocation_name(String location_name) {
         this.location_name = location_name;
+    }
+
+    public String getHotel_image() {
+        return room.getHotel().getImage();
+    }
+
+    public void setHotel_image(String hotel_image) {
+        this.hotel_image = hotel_image;
+    }
+
+    public String getFloor() {
+        return room.getFloor();
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
     }
 
     public Set<String> getRoomService() {
