@@ -21,7 +21,7 @@ public class Mapper {
         order.setPhone(orderRequest.getPhone());
         order.setRoom(room);
         order.setStatus(orderRequest.isStatus());
-        order.setIdentity_card(orderRequest.getIdentification());
+        order.setIdentification(orderRequest.getIdentification());
         Date arrivalDate = StringProccessUtil.StringToDate(orderRequest.getArrival_date());
         Date departureDate = StringProccessUtil.StringToDate(orderRequest.getDeparture_date());
         order.setArrival_date(arrivalDate);

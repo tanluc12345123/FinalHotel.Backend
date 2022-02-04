@@ -16,4 +16,5 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Integer> {
 
     @Query("select r from RoomOrder r where r.users.id = ?1 and r.status = ?2 order by r.arrival_date DESC, r.departure_date DESC")
     List<RoomOrder> findlistOrderByStatus(Integer id, boolean status);
+
 }

@@ -57,9 +57,15 @@ public class UserController {
                             , roomRepository.findById(item.getRoom_id()).get()
                             , userService.findById(item.getUser_id()))));
             temp.stream().forEach(item -> roomOrderList.get(temp.indexOf(item)).setId(item.getId()));
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("ok", "Order Room SuccessFull", roomOrderList)
-            );
+            if (roomOrderList.size() > 0) {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("ok", "Get list order SuccessFull", roomOrderList)
+                );
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("Fail", "list order null", "")
+                );
+            }
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("Fail", "Not Found Exception", "")
@@ -102,9 +108,15 @@ public class UserController {
                             , roomRepository.findById(item.getRoom_id()).get()
                             , userService.findById(item.getUser_id()))));
             temp.stream().forEach(item -> roomOrderList.get(temp.indexOf(item)).setId(item.getId()));
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("ok", "Get list order SuccessFull", roomOrderList)
-            );
+            if (roomOrderList.size() > 0) {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("ok", "Get list order SuccessFull", roomOrderList)
+                );
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("Fail", "list order null", "")
+                );
+            }
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("Fail", "Not Found Exception", "")
@@ -175,8 +187,6 @@ public class UserController {
     }
 
 
-
-
     @Operation(summary = "Comment đánh giá phòng", description = "Trả về thông tin comment và phòng đã đánh giá", tags = {"Api User sau khi Login"})
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/{userId}/order/{orderId}/comment")
@@ -189,6 +199,27 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("ok", "Comment Successful", comment)
             );
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new ResponseObject("Fail", "User Not Found", "")
+            );
+        }
+
+    }
+
+    @Operation(summary = "Xoá đơn đặt phòng", description = "Xoá đơn đặt phòng", tags = {"Api User sau khi Login"})
+    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping("/{userId}/order/{orderId}/delete")
+    public ResponseEntity<ResponseObject> deleteOrder(@PathVariable("userId") Integer userId, @PathVariable("orderId") Integer orderId) {
+        if (userService.existsById(userId)) {
+            if (roomOrderRepository.existsById(orderId)) {
+                roomOrderRepository.deleteById(orderId);
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("ok", "Delete Successful", ""));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("Fail", "Order Not Found", ""));
+            }
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("Fail", "User Not Found", "")

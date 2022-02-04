@@ -26,8 +26,8 @@ public class RoomOrder {
     private String phone;
     @Column(name = "email")
     private String email;
-    @Column(name = "identity_card")
-    private String identity_card;
+
+    private String identification;
 
     @Column(name = "arrival_date")
     @Temporal(TemporalType.DATE)

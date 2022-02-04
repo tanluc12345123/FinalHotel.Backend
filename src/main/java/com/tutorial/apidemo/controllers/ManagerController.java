@@ -339,7 +339,7 @@ public class ManagerController {
                     orderResponse.setRoom_name(order.getRoom_name());
                     orderResponse.setArrival_date(StringProccessUtil.DateToString(order.getArrival_date()));
                     orderResponse.setDeparture_date(StringProccessUtil.DateToString(order.getDeparture_date()));
-                    orderResponse.setIdentity_card(order.getIdentity_card());
+                    orderResponse.setIdentity_card(order.getIdentification());
                     orderResponse.setLocation_name(order.getLocation_name());
                     orderResponse.setNumber_of_people(order.getNumber_of_people());
                     orderResponse.setRoomCharge(order.getRoomCharge());
