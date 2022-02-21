@@ -9,8 +9,7 @@
 * [Notes](#notes)
 
 ## General info
-A simple weather checking API service.
-	
+A backend project provide APIs	
 ## Technologies
 * Java 1.8
 * Spring Boot 2.6.2
