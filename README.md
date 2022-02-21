@@ -9,7 +9,7 @@
 * [Notes](#notes)
 
 ## General info
-A backend project provide APIs	
+A backend project of Simple Booking Hotel Website
 ## Technologies
 * Java 1.8
 * Spring Boot 2.6.2
