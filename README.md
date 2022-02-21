@@ -16,7 +16,7 @@ A simple weather checking API service.
 	
 ## Technologies
 * Java 1.8
-* Spring Boot 2.4.3
+* Spring Boot 2.6.2
 * MySQL 8
 
 
