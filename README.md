@@ -5,9 +5,6 @@
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
-* [Setup](#setup)
-* [User Stories](#user-stories)
-* [Weather API provider](#weather-api-provider)
 * [Requirements](#requirements)
 * [Notes](#notes)
 
